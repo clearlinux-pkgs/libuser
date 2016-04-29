@@ -4,7 +4,7 @@
 #
 Name     : libuser
 Version  : 0.62
-Release  : 2
+Release  : 3
 URL      : https://fedorahosted.org/releases/l/i/libuser/libuser-0.62.tar.xz
 Source0  : https://fedorahosted.org/releases/l/i/libuser/libuser-0.62.tar.xz
 Summary  : A user and group account administration library.
