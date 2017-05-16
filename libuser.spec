@@ -4,12 +4,12 @@
 #
 Name     : libuser
 Version  : 0.62
-Release  : 6
-URL      : https://fedorahosted.org/releases/l/i/libuser/libuser-0.62.tar.xz
-Source0  : https://fedorahosted.org/releases/l/i/libuser/libuser-0.62.tar.xz
+Release  : 7
+URL      : http://releases.pagure.org/libuser/libuser-0.62.tar.xz
+Source0  : http://releases.pagure.org/libuser/libuser-0.62.tar.xz
 Summary  : A user and group account administration library.
 Group    : Development/Tools
-License  : GPL-2.0 LGPL-2.0
+License  : LGPL-2.0
 Requires: libuser-bin
 Requires: libuser-python
 Requires: libuser-lib
@@ -88,16 +88,23 @@ python components for the libuser package.
 %setup -q -n libuser-0.62
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
+export LANG=C
+export SOURCE_DATE_EPOCH=1494963046
 %configure --disable-static --disable-gtk-doc-html
 make V=1  %{?_smp_mflags}
 
 %check
+export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
+export SOURCE_DATE_EPOCH=1494963046
 rm -rf %{buildroot}
 %make_install
 %find_lang libuser
@@ -129,8 +136,8 @@ rm -rf %{buildroot}
 /usr/include/libuser/prompt.h
 /usr/include/libuser/user.h
 /usr/include/libuser/user_private.h
-/usr/lib64/*.so
-/usr/lib64/pkgconfig/*.pc
+/usr/lib64/libuser.so
+/usr/lib64/pkgconfig/libuser.pc
 
 %files doc
 %defattr(-,root,root,-)
@@ -160,14 +167,15 @@ rm -rf %{buildroot}
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/*.so.*
+/usr/lib64/libuser.so.1
+/usr/lib64/libuser.so.1.5.2
 /usr/lib64/libuser/libuser_files.so
 /usr/lib64/libuser/libuser_shadow.so
 
 %files python
 %defattr(-,root,root,-)
-/usr/lib/python*/*
+/usr/lib/python2*/*
 
-%files locales -f libuser.lang 
+%files locales -f libuser.lang
 %defattr(-,root,root,-)
 
