@@ -4,14 +4,14 @@
 #
 Name     : libuser
 Version  : 0.62
-Release  : 8
+Release  : 9
 URL      : http://releases.pagure.org/libuser/libuser-0.62.tar.xz
 Source0  : http://releases.pagure.org/libuser/libuser-0.62.tar.xz
 Summary  : A user and group account administration library.
 Group    : Development/Tools
 License  : LGPL-2.0
 Requires: libuser-bin
-Requires: libuser-python
+Requires: libuser-legacypython
 Requires: libuser-lib
 Requires: libuser-doc
 Requires: libuser-locales
@@ -60,6 +60,14 @@ Group: Documentation
 doc components for the libuser package.
 
 
+%package legacypython
+Summary: legacypython components for the libuser package.
+Group: Default
+
+%description legacypython
+legacypython components for the libuser package.
+
+
 %package lib
 Summary: lib components for the libuser package.
 Group: Libraries
@@ -76,14 +84,6 @@ Group: Default
 locales components for the libuser package.
 
 
-%package python
-Summary: python components for the libuser package.
-Group: Default
-
-%description python
-python components for the libuser package.
-
-
 %prep
 %setup -q -n libuser-0.62
 
@@ -92,7 +92,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1494963046
+export SOURCE_DATE_EPOCH=1505005156
 %configure --disable-static --disable-gtk-doc-html
 make V=1  %{?_smp_mflags}
 
@@ -104,7 +104,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1494963046
+export SOURCE_DATE_EPOCH=1505005156
 rm -rf %{buildroot}
 %make_install
 %find_lang libuser
@@ -165,16 +165,16 @@ rm -rf %{buildroot}
 /usr/share/gtk-doc/html/libuser/up-insensitive.png
 /usr/share/gtk-doc/html/libuser/up.png
 
+%files legacypython
+%defattr(-,root,root,-)
+/usr/lib/python2*/*
+
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libuser.so.1
 /usr/lib64/libuser.so.1.5.2
 /usr/lib64/libuser/libuser_files.so
 /usr/lib64/libuser/libuser_shadow.so
-
-%files python
-%defattr(-,root,root,-)
-/usr/lib/python2*/*
 
 %files locales -f libuser.lang
 %defattr(-,root,root,-)

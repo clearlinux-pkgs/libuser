@@ -1,0 +1,2 @@
+Configure miss: whether we should use -Werror
+Configure miss: modules/files.c:537:3: warning: format not a string literal and no format arguments [-Wformat-security]
