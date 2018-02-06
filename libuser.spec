@@ -4,7 +4,7 @@
 #
 Name     : libuser
 Version  : 0.62
-Release  : 10
+Release  : 11
 URL      : http://releases.pagure.org/libuser/libuser-0.62.tar.xz
 Source0  : http://releases.pagure.org/libuser/libuser-0.62.tar.xz
 Summary  : A user and group account administration library.
@@ -15,6 +15,7 @@ Requires: libuser-legacypython
 Requires: libuser-lib
 Requires: libuser-doc
 Requires: libuser-locales
+Requires: libuser-python
 BuildRequires : Linux-PAM-dev
 BuildRequires : docbook-xml
 BuildRequires : gtk-doc
@@ -25,6 +26,7 @@ BuildRequires : pkgconfig(gmodule-no-export-2.0)
 BuildRequires : pkgconfig(gobject-2.0)
 BuildRequires : popt-dev
 BuildRequires : python-dev
+BuildRequires : python3-dev
 
 %description
 About
@@ -63,6 +65,7 @@ doc components for the libuser package.
 %package legacypython
 Summary: legacypython components for the libuser package.
 Group: Default
+Requires: python-core
 
 %description legacypython
 legacypython components for the libuser package.
@@ -84,6 +87,15 @@ Group: Default
 locales components for the libuser package.
 
 
+%package python
+Summary: python components for the libuser package.
+Group: Default
+Requires: libuser-legacypython
+
+%description python
+python components for the libuser package.
+
+
 %prep
 %setup -q -n libuser-0.62
 
@@ -92,9 +104,9 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1505005156
-%configure --disable-static --disable-gtk-doc-html
-make V=1  %{?_smp_mflags}
+export SOURCE_DATE_EPOCH=1517941802
+%configure --disable-static --disable-gtk-doc-html PYTHON=python2
+make  %{?_smp_mflags}
 
 %check
 export LANG=C
@@ -104,7 +116,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1505005156
+export SOURCE_DATE_EPOCH=1517941802
 rm -rf %{buildroot}
 %make_install
 %find_lang libuser
@@ -175,6 +187,9 @@ rm -rf %{buildroot}
 /usr/lib64/libuser.so.1.5.2
 /usr/lib64/libuser/libuser_files.so
 /usr/lib64/libuser/libuser_shadow.so
+
+%files python
+%defattr(-,root,root,-)
 
 %files locales -f libuser.lang
 %defattr(-,root,root,-)
