@@ -25,7 +25,7 @@ BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(gmodule-no-export-2.0)
 BuildRequires : pkgconfig(gobject-2.0)
 BuildRequires : popt-dev
-BuildRequires : python-dev
+
 BuildRequires : python3-dev
 
 %description
