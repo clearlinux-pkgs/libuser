@@ -4,18 +4,18 @@
 #
 Name     : libuser
 Version  : 0.62
-Release  : 21
+Release  : 22
 URL      : http://releases.pagure.org/libuser/libuser-0.62.tar.xz
 Source0  : http://releases.pagure.org/libuser/libuser-0.62.tar.xz
 Summary  : A user and group account administration library.
 Group    : Development/Tools
 License  : LGPL-2.0
-Requires: libuser-bin
-Requires: libuser-legacypython
-Requires: libuser-lib
-Requires: libuser-doc
-Requires: libuser-locales
-Requires: libuser-python
+Requires: libuser-bin = %{version}-%{release}
+Requires: libuser-lib = %{version}-%{release}
+Requires: libuser-license = %{version}-%{release}
+Requires: libuser-locales = %{version}-%{release}
+Requires: libuser-man = %{version}-%{release}
+Requires: libuser-python = %{version}-%{release}
 BuildRequires : Linux-PAM-dev
 BuildRequires : docbook-xml
 BuildRequires : gtk-doc
@@ -25,7 +25,7 @@ BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(gmodule-no-export-2.0)
 BuildRequires : pkgconfig(gobject-2.0)
 BuildRequires : popt-dev
-
+BuildRequires : python-dev
 BuildRequires : python3-dev
 
 %description
@@ -38,6 +38,8 @@ interface to its data sources.
 %package bin
 Summary: bin components for the libuser package.
 Group: Binaries
+Requires: libuser-license = %{version}-%{release}
+Requires: libuser-man = %{version}-%{release}
 
 %description bin
 bin components for the libuser package.
@@ -46,9 +48,9 @@ bin components for the libuser package.
 %package dev
 Summary: dev components for the libuser package.
 Group: Development
-Requires: libuser-lib
-Requires: libuser-bin
-Provides: libuser-devel
+Requires: libuser-lib = %{version}-%{release}
+Requires: libuser-bin = %{version}-%{release}
+Provides: libuser-devel = %{version}-%{release}
 
 %description dev
 dev components for the libuser package.
@@ -57,6 +59,7 @@ dev components for the libuser package.
 %package doc
 Summary: doc components for the libuser package.
 Group: Documentation
+Requires: libuser-man = %{version}-%{release}
 
 %description doc
 doc components for the libuser package.
@@ -74,9 +77,18 @@ legacypython components for the libuser package.
 %package lib
 Summary: lib components for the libuser package.
 Group: Libraries
+Requires: libuser-license = %{version}-%{release}
 
 %description lib
 lib components for the libuser package.
+
+
+%package license
+Summary: license components for the libuser package.
+Group: Default
+
+%description license
+license components for the libuser package.
 
 
 %package locales
@@ -87,10 +99,17 @@ Group: Default
 locales components for the libuser package.
 
 
+%package man
+Summary: man components for the libuser package.
+Group: Default
+
+%description man
+man components for the libuser package.
+
+
 %package python
 Summary: python components for the libuser package.
 Group: Default
-Requires: libuser-legacypython
 
 %description python
 python components for the libuser package.
@@ -104,7 +123,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1517941802
+export SOURCE_DATE_EPOCH=1540413470
 %configure --disable-static --disable-gtk-doc-html PYTHON=python2
 make  %{?_smp_mflags}
 
@@ -116,8 +135,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1517941802
+export SOURCE_DATE_EPOCH=1540413470
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/libuser
+cp COPYING %{buildroot}/usr/share/package-licenses/libuser/COPYING
 %make_install
 %find_lang libuser
 
@@ -152,9 +173,7 @@ rm -rf %{buildroot}
 /usr/lib64/pkgconfig/libuser.pc
 
 %files doc
-%defattr(-,root,root,-)
-%doc /usr/share/man/man1/*
-%doc /usr/share/man/man5/*
+%defattr(0644,root,root,0755)
 /usr/share/gtk-doc/html/libuser/api-index-full.html
 /usr/share/gtk-doc/html/libuser/ch01.html
 /usr/share/gtk-doc/html/libuser/deprecated-api-index.html
@@ -187,6 +206,26 @@ rm -rf %{buildroot}
 /usr/lib64/libuser.so.1.5.2
 /usr/lib64/libuser/libuser_files.so
 /usr/lib64/libuser/libuser_shadow.so
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/libuser/COPYING
+
+%files man
+%defattr(0644,root,root,0755)
+/usr/share/man/man1/lchage.1
+/usr/share/man/man1/lchfn.1
+/usr/share/man/man1/lchsh.1
+/usr/share/man/man1/lgroupadd.1
+/usr/share/man/man1/lgroupdel.1
+/usr/share/man/man1/lgroupmod.1
+/usr/share/man/man1/lid.1
+/usr/share/man/man1/lnewusers.1
+/usr/share/man/man1/lpasswd.1
+/usr/share/man/man1/luseradd.1
+/usr/share/man/man1/luserdel.1
+/usr/share/man/man1/lusermod.1
+/usr/share/man/man5/libuser.conf.5
 
 %files python
 %defattr(-,root,root,-)
