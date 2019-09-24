@@ -4,7 +4,7 @@
 #
 Name     : libuser
 Version  : 0.62
-Release  : 24
+Release  : 25
 URL      : https://releases.pagure.org/libuser/libuser-0.62.tar.xz
 Source0  : https://releases.pagure.org/libuser/libuser-0.62.tar.xz
 Summary  : A user and group account administration library.
@@ -16,6 +16,7 @@ Requires: libuser-license = %{version}-%{release}
 Requires: libuser-locales = %{version}-%{release}
 Requires: libuser-man = %{version}-%{release}
 Requires: libuser-python = %{version}-%{release}
+Requires: libuser-python3 = %{version}-%{release}
 BuildRequires : Linux-PAM-dev
 BuildRequires : docbook-xml
 BuildRequires : gtk-doc
@@ -25,7 +26,6 @@ BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(gmodule-no-export-2.0)
 BuildRequires : pkgconfig(gobject-2.0)
 BuildRequires : popt-dev
-BuildRequires : python-dev
 BuildRequires : python3-dev
 
 %description
@@ -39,7 +39,6 @@ interface to its data sources.
 Summary: bin components for the libuser package.
 Group: Binaries
 Requires: libuser-license = %{version}-%{release}
-Requires: libuser-man = %{version}-%{release}
 
 %description bin
 bin components for the libuser package.
@@ -51,6 +50,7 @@ Group: Development
 Requires: libuser-lib = %{version}-%{release}
 Requires: libuser-bin = %{version}-%{release}
 Provides: libuser-devel = %{version}-%{release}
+Requires: libuser = %{version}-%{release}
 
 %description dev
 dev components for the libuser package.
@@ -63,15 +63,6 @@ Requires: libuser-man = %{version}-%{release}
 
 %description doc
 doc components for the libuser package.
-
-
-%package legacypython
-Summary: legacypython components for the libuser package.
-Group: Default
-Requires: python-core
-
-%description legacypython
-legacypython components for the libuser package.
 
 
 %package lib
@@ -110,9 +101,19 @@ man components for the libuser package.
 %package python
 Summary: python components for the libuser package.
 Group: Default
+Requires: libuser-python3 = %{version}-%{release}
 
 %description python
 python components for the libuser package.
+
+
+%package python3
+Summary: python3 components for the libuser package.
+Group: Default
+Requires: python3-core
+
+%description python3
+python3 components for the libuser package.
 
 
 %prep
@@ -122,20 +123,25 @@ python components for the libuser package.
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1540413470
-%configure --disable-static --disable-gtk-doc-html PYTHON=python2
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1569362396
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
+%configure --disable-static --disable-gtk-doc-html
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1540413470
+export SOURCE_DATE_EPOCH=1569362396
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libuser
 cp COPYING %{buildroot}/usr/share/package-licenses/libuser/COPYING
@@ -196,10 +202,6 @@ cp COPYING %{buildroot}/usr/share/package-licenses/libuser/COPYING
 /usr/share/gtk-doc/html/libuser/up-insensitive.png
 /usr/share/gtk-doc/html/libuser/up.png
 
-%files legacypython
-%defattr(-,root,root,-)
-/usr/lib/python2*/*
-
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libuser.so.1
@@ -229,6 +231,10 @@ cp COPYING %{buildroot}/usr/share/package-licenses/libuser/COPYING
 
 %files python
 %defattr(-,root,root,-)
+
+%files python3
+%defattr(-,root,root,-)
+/usr/lib/python3*/*
 
 %files locales -f libuser.lang
 %defattr(-,root,root,-)

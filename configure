@@ -1,1 +1,1 @@
- --disable-gtk-doc-html PYTHON=python2
+ --disable-gtk-doc-html
