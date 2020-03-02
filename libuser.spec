@@ -4,10 +4,10 @@
 #
 Name     : libuser
 Version  : 0.62
-Release  : 27
+Release  : 28
 URL      : https://releases.pagure.org/libuser/libuser-0.62.tar.xz
 Source0  : https://releases.pagure.org/libuser/libuser-0.62.tar.xz
-Summary  : A user and group account administration library.
+Summary  : A standardized interface for manipulating and administering user and group accounts.
 Group    : Development/Tools
 License  : LGPL-2.0
 Requires: libuser-bin = %{version}-%{release}
@@ -50,6 +50,7 @@ Group: Development
 Requires: libuser-lib = %{version}-%{release}
 Requires: libuser-bin = %{version}-%{release}
 Provides: libuser-devel = %{version}-%{release}
+Requires: libuser = %{version}-%{release}
 Requires: libuser = %{version}-%{release}
 
 %description dev
@@ -118,13 +119,15 @@ python3 components for the libuser package.
 
 %prep
 %setup -q -n libuser-0.62
+cd %{_builddir}/libuser-0.62
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1569362396
+export SOURCE_DATE_EPOCH=1583169615
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
@@ -141,10 +144,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1569362396
+export SOURCE_DATE_EPOCH=1583169615
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libuser
-cp COPYING %{buildroot}/usr/share/package-licenses/libuser/COPYING
+cp %{_builddir}/libuser-0.62/COPYING %{buildroot}/usr/share/package-licenses/libuser/ba8966e2473a9969bdcab3dc82274c817cfd98a1
 %make_install
 %find_lang libuser
 
@@ -211,7 +214,7 @@ cp COPYING %{buildroot}/usr/share/package-licenses/libuser/COPYING
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/libuser/COPYING
+/usr/share/package-licenses/libuser/ba8966e2473a9969bdcab3dc82274c817cfd98a1
 
 %files man
 %defattr(0644,root,root,0755)
