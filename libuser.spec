@@ -4,7 +4,7 @@
 #
 Name     : libuser
 Version  : 0.62
-Release  : 41
+Release  : 42
 URL      : https://releases.pagure.org/libuser/libuser-0.62.tar.xz
 Source0  : https://releases.pagure.org/libuser/libuser-0.62.tar.xz
 Summary  : A standardized interface for manipulating and administering user and group accounts.
