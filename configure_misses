@@ -1,3 +1,4 @@
-Configure miss: modules/files.c:537:17: warning: format not a string literal and no format arguments [-Wformat-security]
-
+Configure miss: gcc option to enable large file support
+Configure miss: library containing audit_open
 Configure miss: whether we should use -Werror
+Configure miss: x86_64-generic-linux-gnu-file
