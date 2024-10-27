@@ -7,7 +7,7 @@
 #
 Name     : libuser
 Version  : 0.64
-Release  : 44
+Release  : 45
 URL      : https://releases.pagure.org/libuser/libuser-0.64.tar.gz
 Source0  : https://releases.pagure.org/libuser/libuser-0.64.tar.gz
 Summary  : A user and group account administration library.
